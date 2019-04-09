@@ -1,5 +1,6 @@
 import { Component, OnInit, Injectable, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,28 +19,18 @@ export class DataProviderService {
 @Component({
   selector: 'app-hello-world',
   template: `
-    <p>{{ greeting$ }}</p>
+    <p>{{ greeting$ | async }}</p>
   `
 })
-export class HelloWorldComponent implements OnInit, OnDestroy {
+export class HelloWorldComponent implements OnInit {
   constructor(private dataProviderService: DataProviderService) {}
 
-  private subscription: Subscription;
-
-  public greeting$: string;
+  public greeting$: Observable<string>;
 
   ngOnInit() {
-    this.subscription = this.dataProviderService.loadGreeting().subscribe(
-      value => {
-        this.greeting$ = value;
-      },
-      error => {
-        this.greeting$ = 'ERROR';
-      }
+    this.greeting$ = this.dataProviderService.loadGreeting().pipe(
+      catchError(() => of('error')),
+      map(v => v.toUpperCase()),
     );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }
