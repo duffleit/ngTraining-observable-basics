@@ -1,5 +1,5 @@
-import { Component, OnInit, Injectable, OnDestroy } from '@angular/core';
-import { Observable, Subscription, of } from 'rxjs';
+import { Component, OnInit, Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
