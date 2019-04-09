@@ -20,13 +20,20 @@ export class DataProviderService {
     <p>{{ greeting }}</p>
   `
 })
-export class HelloWorldComponent implements OnInit {
+export class HelloWorldComponent implements OnInit, OnDestroy {
   constructor(private dataProviderService: DataProviderService) {}
 
   public greeting: string;
+  private subscription: Subscription;
   ngOnInit() {
-    this.dataProviderService.loadGreeting().subscribe(value => {
-      this.greeting = value;
-    });
+    this.subscription = this.dataProviderService
+      .loadGreeting()
+      .subscribe(value => {
+        this.greeting = value;
+      });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
