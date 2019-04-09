@@ -1,27 +1,38 @@
-# NgTrainingObservableBasics
+# Observable Basics
+
+This exercise helps you in understanding the basics of RxJS Observables and Observers. 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.5.
 
-## Development server
+## Tasks
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. Create a component which subscribes to a Greeting-Observable that emits the string `"hello"` after 5 seconds and the string `"world!"` after 10 more seconds. Use `setTimeout` and `new Observable<string>()` to create this Observable. Finally, render the greeting message in the component.
 
-## Code scaffolding
+2. Move the Observable-Creation into an own Service. 
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+3. Use the `ngOnDestroy`-hook to unsubscribe from the Greeting-Observable as soon as the component is destroyed. 
 
-## Build
+4. Follow the _Finnish Notation_ which is commonly used in Angular to declare variables that contain asynchronous values.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+5. Emit an Error after 6 seconds. The component should render `ERROR` then. Check if `world!` is still rendered after 15 seconds?
 
-## Running unit tests
+6. Use the `async`-pipe to get rid of unsubscribing in the `ngOnDestroy`. 
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+7. Transform all greeting-values into uppercase and handle the error without `.subscription()`. Keep in mind that the `catchError`-operator needs to return a new Observable.
 
-## Running end-to-end tests
+8. __BONUS:__ Merge to observables to show always the current second in front of the greeter-message, which will result in something like this: 
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+```
+1s: 
+2s: 
+3s: 
+4s: 
+5s: HELLO 
+6s: HELLO
+...
+9s: HELLO
+10s: WORLD!
+...
+```
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+_HINT:_ use `combineLatest` to get this done. 
