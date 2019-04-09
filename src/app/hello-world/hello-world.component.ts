@@ -17,19 +17,21 @@ export class DataProviderService {
 @Component({
   selector: 'app-hello-world',
   template: `
-    <p>{{ greeting }}</p>
+    <p>{{ greeting$ }}</p>
   `
 })
 export class HelloWorldComponent implements OnInit, OnDestroy {
   constructor(private dataProviderService: DataProviderService) {}
 
-  public greeting: string;
   private subscription: Subscription;
+
+  public greeting$: string;
+
   ngOnInit() {
     this.subscription = this.dataProviderService
       .loadGreeting()
       .subscribe(value => {
-        this.greeting = value;
+        this.greeting$ = value;
       });
   }
 
