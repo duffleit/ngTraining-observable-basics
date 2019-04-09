@@ -8,6 +8,7 @@ export class DataProviderService {
   public loadGreeting(): Observable<string> {
     return new Observable<string>(observer => {
       setTimeout(() => observer.next('hello'), 5000);
+      setTimeout(() => observer.error('error'), 6000);
       setTimeout(() => observer.next('world!'), 15000);
       setTimeout(() => observer.complete(), 15001);
     });
@@ -28,11 +29,14 @@ export class HelloWorldComponent implements OnInit, OnDestroy {
   public greeting$: string;
 
   ngOnInit() {
-    this.subscription = this.dataProviderService
-      .loadGreeting()
-      .subscribe(value => {
+    this.subscription = this.dataProviderService.loadGreeting().subscribe(
+      value => {
         this.greeting$ = value;
-      });
+      },
+      error => {
+        this.greeting$ = 'ERROR';
+      }
+    );
   }
 
   ngOnDestroy() {
